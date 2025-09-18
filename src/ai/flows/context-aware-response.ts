@@ -42,14 +42,15 @@ const contextAwareResponsePrompt = ai.definePrompt({
   input: {schema: ContextAwareResponseInputSchema},
   output: {schema: ContextAwareResponseOutputSchema},
   tools: [shouldIncorporateHistoryTool],
-  prompt: `{{#if (shouldIncorporateHistory message conversationHistory)}}
-      You are a chatbot having a conversation with a user.  Here is the conversation history:  {{{conversationHistory}}}
-      The user has just said: {{{message}}}
-      Generate a response that is relevant to the past conversation. 
-    {{else}}
-      You are a chatbot. The user has just said: {{{message}}}. Generate a response.
-    {{/if}}
-  `,
+  prompt: `You are a chatbot.
+Use the shouldIncorporateHistory tool to decide if you should use the conversation history.
+
+If the tool returns true, you are having a conversation with a user. Here is the conversation history: {{{conversationHistory}}}
+The user has just said: {{{message}}}
+Generate a response that is relevant to the past conversation.
+
+If the tool returns false, The user has just said: {{{message}}}. Generate a response.
+`,
 });
 
 const contextAwareResponseFlow = ai.defineFlow({
