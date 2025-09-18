@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 import { ChatMessage } from './chat-message';
 import type { Message } from '@/app/page';
 
@@ -23,13 +23,15 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   }, [messages, isLoading]);
 
   return (
-    <ScrollArea className="h-full" viewportRef={viewportRef}>
-      <div className="p-4 md:p-6">
-        {messages.map((message) => (
-          <ChatMessage key={message.id} {...message} />
-        ))}
-        {isLoading && <ChatMessage role="bot" content="" isLoading />}
-      </div>
+    <ScrollArea className="h-full">
+      <ScrollAreaViewport ref={viewportRef}>
+        <div className="p-4 md:p-6">
+          {messages.map((message) => (
+            <ChatMessage key={message.id} {...message} />
+          ))}
+          {isLoading && <ChatMessage role="bot" content="" isLoading />}
+        </div>
+      </ScrollAreaViewport>
     </ScrollArea>
   );
 }
