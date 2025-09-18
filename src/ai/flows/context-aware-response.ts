@@ -22,34 +22,22 @@ const ContextAwareResponseOutputSchema = z.object({
 });
 export type ContextAwareResponseOutput = z.infer<typeof ContextAwareResponseOutputSchema>;
 
-const shouldIncorporateHistoryTool = ai.defineTool({
-  name: 'shouldIncorporateHistory',
-  description: 'Determines whether the chatbot should incorporate past conversation history into the response.',
-  inputSchema: z.object({
-    message: z.string().describe('The current message from the user.'),
-    conversationHistory: z.array(z.string()).describe('The past conversation history.'),
-  }),
-  outputSchema: z.boolean().describe('Whether or not the chatbot should incorporate past conversation history into the response.'),
-}, async (input) => {
-  // Basic implementation: Incorporate history if it's a continuation of the conversation, otherwise, ignore.
-  // A more sophisticated implementation would use semantic similarity to determine if the current message is related to the past conversation.
-  const incorporate = input.conversationHistory.length > 0;
-  return incorporate;
-});
-
 const contextAwareResponsePrompt = ai.definePrompt({
   name: 'contextAwareResponsePrompt',
   input: {schema: ContextAwareResponseInputSchema},
   output: {schema: ContextAwareResponseOutputSchema},
-  tools: [shouldIncorporateHistoryTool],
-  prompt: `You are a chatbot.
-Use the shouldIncorporateHistory tool to decide if you should use the conversation history.
+  prompt: `You are a friendly and helpful chatbot.
 
-If the tool returns true, you are having a conversation with a user. Here is the conversation history: {{{conversationHistory}}}
-The user has just said: {{{message}}}
-Generate a response that is relevant to the past conversation.
+{{#if conversationHistory}}
+You are having a conversation with a user. Here is the conversation history:
+{{#each conversationHistory}}
+- {{{this}}}
+{{/each}}
+{{/if}}
 
-If the tool returns false, The user has just said: {{{message}}}. Generate a response.
+The user has just said: "{{{message}}}"
+
+Generate a response that is relevant to the conversation.
 `,
 });
 
