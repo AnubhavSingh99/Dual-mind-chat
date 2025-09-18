@@ -184,6 +184,15 @@ function useToast() {
     }
   }, [state])
 
+  const mounted = React.useRef(false);
+
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    }
+  }, []);
+
   return {
     ...state,
     toast,
