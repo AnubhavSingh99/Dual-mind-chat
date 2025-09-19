@@ -79,8 +79,8 @@ export default function Home() {
       id: Date.now().toString(),
       role: 'bot',
       content: newMode === 'custom' 
-        ? 'Switched to Driver mode. I\'ll respond with the perspective and excitement of an F1 driver, sharing insights from behind the wheel!' 
-        : 'Switched to Analyst mode. I\'ll provide detailed technical analysis and statistics about Formula 1 racing.'
+        ? 'Switched to Driver mode (F1 Expert Model). I\'ll respond using my specialized F1 knowledge trained on circuit data and racing insights!' 
+        : 'Switched to Analyst mode (Gemini). I\'ll provide detailed technical analysis and statistics about Formula 1 racing.'
     };
     
     setMessages(prev => [...prev, systemMessage]);

@@ -1,4 +1,16 @@
-# F1 Expert Chat: Dual-Model Formula 1 Conversational AI
+# ## Project Overview
+
+F1 Expert Chat is a web-based chatbot application that provides## Example Use Cases
+
+- Ask for technical F1 analysis (Analyst mode):  
+  "How does DRS work in Formula 1?"
+- Ask about F1 circuits (Driver mode):  
+  "What circuits are in Monaco?" or "Tell me about Albert Park"
+- Enable Detailed Analysis for step-by-step explanations.with expert-level answers about Formula 1 racing. The app features two distinct AI personas:
+- **Analyst Mode:** Uses Google Gemini (Gemini 2.5 Flash) for technical, statistical, and historical F1 analysis.
+- **Driver Mode:** Uses a custom-trained F1 model (`Anubhav99x/F1_Expert_LM`) hosted on Hugging Face, specifically trained on F1 circuit data to provide specialized racing insights.
+
+The user can toggle between these modes and also enable a "Detailed Analysis" feature for more in-depth, step-by-step explanations.rt Chat: Dual-Model Formula 1 Conversational AI
 
 ## Project Overview
 
@@ -27,7 +39,7 @@ The user can toggle between these modes and also enable a “Detailed Analysis�
 - **Backend:** Next.js API routes, Genkit for AI orchestration
 - **AI Models:**
   - **Gemini (GoogleAI):** For Analyst mode
-  - **Custom Hugging Face Model:** For Driver mode (API integration)
+  - **Custom F1 Expert Model (Anubhav99x/F1_Expert_LM):** For Driver mode via Hugging Face Gradio API
 - **Other:** Zod for validation, React Hook Form, dotenv for environment variables
 
 ---
@@ -63,7 +75,7 @@ package.json                 # Dependencies and scripts
 1. **User Interface:** User enters a question and selects a mode (Analyst/Driver) and optionally enables Detailed Analysis.
 2. **Routing:** The backend routes the question to the appropriate AI model:
    - Analyst → Gemini (GoogleAI)
-   - Driver → Custom Hugging Face model (via API)
+   - Driver → F1 Expert Model (`Anubhav99x/F1_Expert_LM`) via Hugging Face Gradio API
 3. **Prompt Engineering:** Each mode uses a custom prompt to ensure the correct persona and response style.
 4. **Response:** The AI’s answer is displayed in the chat, maintaining conversation context.
 
@@ -71,9 +83,10 @@ package.json                 # Dependencies and scripts
 
 ## Custom Model Integration
 
-- The custom model is hosted on Hugging Face and accessed via the Hugging Face Inference API.
-- API keys and endpoints are managed via environment variables.
-- The model is fine-tuned on Formula 1 data for authentic, driver-like responses.
+- The custom F1 Expert model (`Anubhav99x/F1_Expert_LM`) is hosted on Hugging Face and accessed via the Gradio API.
+- The model is specifically trained on Formula 1 circuit data, providing specialized knowledge about F1 tracks and racing.
+- API communication is handled through axios with proper error handling and timeouts.
+- The integration includes fallback responses in case of API failures.
 
 ---
 
@@ -91,9 +104,9 @@ package.json                 # Dependencies and scripts
 
 1. **Install dependencies:**  
    `npm install`
-2. **Set environment variables:**  
+3. **Set environment variables:**  
    - `GOOGLE_API_KEY` for Gemini  
-   - `HUGGINGFACE_API_KEY` and model endpoint for custom model
+   - F1 Expert Model is accessed via public Hugging Face Gradio API (no additional keys required)
 3. **Run the app:**  
    `npm run dev`
 4. **Access:**  

@@ -49,15 +49,17 @@ export async function continueConversation(
       "Provide a concise and direct answer.";
     
     if (mode === 'custom') {
-      // Use the custom model with thinking mode
+      // Use the custom F1 Expert model from Hugging Face
       result = await customResponse({
-        ...input,
+        message: lastUserMessage.content,
+        conversationHistory,
         systemPrompt,
-      } as CustomResponseInput);
+      });
     } else {
       // Use the default Gemini model with thinking mode
       result = await contextAwareResponse({
-        ...input,
+        message: lastUserMessage.content,
+        conversationHistory,
         systemPrompt,
       } as ContextAwareResponseInput);
     }
